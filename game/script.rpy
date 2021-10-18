@@ -26,16 +26,18 @@ label start:
     $ hold = 0 # Where p holds the rider(0: waist light, 1: hips, 2:waist tight, 3: pockets, 4: hips tight, 5: tighs, 6: breasts)
 
 
-    call party 
-    call roman 
-    call breeze
-
-    call history # Shared same class - recall swimming or being only guy/girl in some classes
-
+    call party # party is dead and you are offered a ride into town
+    call roman # small talk, about Roman Holiday
     call breeze 
 
+    call history # Shared same class - recall swimming or being only guy/girl in some classes
+    call breeze 
     call wind
 
+    call future # As you notice you are lost, you chat about the future...
+    call wind # maybe use another puzzle after the future ???
+
+    call present # debrief - depending on your perv, nice and fib points you get different endings
 
     # ENDING:
     hide bg road
@@ -114,9 +116,6 @@ label roman:
         r "Because if I say I haven't you will make up some lie, and if I say I have you will say I am like Princess Ann?"
         p "Probabably..."
     
-    # TODO:
-    # Maybe expand this conversation, to be about how Joe is trying to use Ann to make a quick $. for the artical with princess Ann.
-
     r "Since we are talking. [p], do you want to chat about school?"
     p "School?\nLike our plans now since graduation was yesterday?"
     r "Yesterday?"
@@ -131,9 +130,10 @@ label history:
     r "Back in Year 8 and 9 we had all the same classes.\nDon't you rememeber [p]?"
     p "I vaguely remember"
     r "What do you remember about me?"
+
     menu:
         "What will you tell [r] you remember from 3 years ago?"
-        "At the outdoor ed. camp, you swam out to the rock in the dam":
+        "At the Year 9 camp, you swam out to the rock in the dam":
             call swimming
         "You were the only girl in Technical Drawing and Electronics classes":
             call onlyone
@@ -142,24 +142,30 @@ label history:
 
 label swimming:
     # chat about swimming, bring up how [p] is a poor swimmer
-    p "I remember at the outdoor education camp you didn't fall into the dam when canoeing."
+    p "I remember at the Year 9 camp you didn't fall into the dam when canoeing."
     p "But afterwards you swam out to the rocky island in the middle."
     r "You remember that?"
+
     menu:
         "Why do you remember [r] swimming that day?"
-        "She looked to be having so much fun":
+        "[r] looked to be having so much fun":
             p "I was a little jealous."
             r "Jealous? Why? That water was so cold."
-            p "I was too worried about joining in. Because I can't swim"
+            p "I was too worried about joining in. Because I can't swim..."
             r "You can swim."
-        "Her nipples poked through her wet shirt":
+        "[r]'s nipples poked through her wet shirt":
             $ perv += 1
             p "Your nipples were visible through your wet shirt that day."
             r "Probably. That mountain water was cold. I remember screaming because the water was too cold."
+            ""
+            r "[p] do you know what my first memory of you is?"
+            p "..."
         
     show scooter smile
-    r "I remember in year 8 you swam in the carnival, and stopped about a body length short of finishing. When you stopped you were second in your heat."
-    p "I didn't know I was coming second. That day was the furthest I've ever swam."
+    r "I remember in year 8 you swam in the carnival."
+    r "You almost came first in your heat and then stopped about a body length short of finishing. I thought you chose to give up, rather than swim in the final."
+    p "I didn't know I was coming first. I stopped because I couldn't go on any more."
+    p "That day was the furthest I've ever swam...\nActually I haven't even tried to swim a lap of a pool since."
     show scooter surprise
     r "You have never swam a whole lap of a pool?"
     menu:
@@ -167,15 +173,21 @@ label swimming:
             p "I'm not a good swimmer. I get scared when swimming, so I just try to avoid it."
             $ nice += 1
             r "Is that why you skipped lots of PE days?"
-            p "Yep. I avoided school on swimming days."
+            p "Um... I guess so.\nI did avoided school on swimming days."
+            r "You should occasionally push yourself...\nYou know, hard work makes us stronger and more interesting."
+            p "I guess always avoiding things, also make it more likely you will contemplate the {i}what ifs of chances you didn't take{/i}..."
+            r "True..."
+            ""
         "I'm a bit concious about my hair and pimples":
-            p "I don't like swimming because of my pimples and hairy legs."
-            r "Your legs are the hairiest I've seen. But you shouldn't worry."
+            p "I don't like swimming because of my pimples and hairy legs. I think everyone is staring at me."
+            r "Your legs are the hairiest I've seen.\nBut you shouldn't worry, no one really takes notice."
             p "I guess it could be worse."
+            r "Sure, you could be from Tasmania and have two heads."
+            ""
 
     # If perfect Nice score, you get to see other option at history
     if nice == 4:
-        p "I also recall, you were the only girl in two classes in year 9."
+        p "Is not avoiding things why you chose Electronics and Drawing in year 9?"
         call onlyone
     return
 
@@ -186,9 +198,10 @@ label onlyone:
     r "Oh, I remember that too. I couldn't get any of the other girls to choose those subjects."
     p "Did you like being the only girl in the class?"
     r "What do you think it was like?"
-    p "I sort of know, in Year 11 and 12 I was the only boy in my Mathematics and History class."
+    p "I sort of know.\nIn Year 11 and 12 I was the only boy in my Mathematics and History class."
+
     menu:
-        "How do you feel it is being the only guy/girl in a class?"
+        "How do you feel it is being the only guy in a class?"
         "Strange.":
             p "Being the only guy was strange. There was something different but I can't articulate it."
             p "I think being the only guy in class helped me keep focused."
@@ -197,21 +210,53 @@ label onlyone:
                 "Not at all":
                     $ nice += 1
                     p "Honestly, no.\nDid you get distracted being the only woman in a class full of guys?"
+                    r "I didn't really think about it. Those classes were difficult and I struggled in them."
+                    p "Oh, I was the opposite.\nI think I was able to study better in History and Mathematics where I was the only guy in class."
                 "(Lie) Of course, I had my pick of so many women.":
                     $ fib += 1
                     p "It seemed good on paper. People would assume I had so many women to get close to."
                     p "But with all my pimples and that... you know... {i}nothing happened.{/i}"
+                    p "Honestly though, I did better in the classes I was the only guy in."
         "A little bit Lonely.":
             p "Being the only guy was a litte lonely. Sometimes I wished there was someone to gossip to."
-            p "I made up for it by their being only guys in my Software and Engineering Studies classes."
-    r "I didn't know you were the only guy in some of your classes."
+            p "Though in my Software and Engineering Studies classes there were no girls."
+            r "Do you think that ballanced it out, having two classes with only girls and two classes with only guys?"
+            p "No. But I think I did better in my classes with no other guys."
+            
+    r "I actually didn't know you were the only guy in some of your classes."
+    ""
     p "You still haven't answered my question.\nDid you like being the only girl in class?"
-    r "Looking back I liked it."
+    r "Looking back..."
+    r "I liked it."
     r "But, at the time being the only girl in some classes cause a little bit of friction with friends."
-    r "Also, I wasn't a star in my classes (academically) like you were either."
+    r "Also, I wasn't a star in my classes (academically) like you sound to have been."
 
     return
 
+
+label future:
+    # The player and rider are lost
+    # they chat about your future plans
+    p "How much further do you think it is?"
+    r "..."
+    r "Um [p], this road looks familar, but I am unsure where we are."
+    menu:
+        "Are we lost?":
+            "You think we may be lost."
+        "Did we take a wrong turn somewhere?":
+            ""
+        "Are you tired?":
+            ""
+
+
+    return
+
+
+label present:
+    # end the game with the present.
+    # arriving in town... going separate ways...
+
+    return
 
 label breeze:
     # a breeze pushes across the road, warning [p] to change his grip.
